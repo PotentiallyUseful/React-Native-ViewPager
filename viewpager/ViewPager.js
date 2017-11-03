@@ -27,7 +27,7 @@ export default class ViewPager extends Component {
         pageMargin: 0
     }
 
-    state = {width: 0, height: 0, viewPagerKey: Math.random()}
+    state = {width: 0, height: 0}
 
     _scrollState = SCROLL_STATE.idle
 
@@ -56,18 +56,13 @@ export default class ViewPager extends Component {
         this.setPage = this.setPage.bind(this)
     }
 
-    // Crude work around for https://github.com/facebook/react-native/issues/4775
-    componentWillReceiveProps(nextProps) {
-        this.setState({viewPagerKey: Math.random()})
-    }
-
     render () {
         return (this.props.forceScrollView || Platform.OS === 'ios') ? this._renderOnIOS() : (
             <ViewPagerAndroid
                 {...this.props}
                 scrollEnabled={this.props.horizontalScroll ? true : false}
                 ref={VIEWPAGER_REF}
-                key={this.state.viewPagerKey}
+                key={this.props.children ? this.props.children.length : 0}
                 onPageScroll={this._onPageScrollOnAndroid}
                 onPageSelected={this._onPageSelectedOnAndroid}
             />
